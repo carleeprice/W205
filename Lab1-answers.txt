@@ -1,0 +1,23 @@
+W205 Sec 03 Lab 1 
+Carlee Price
+Jan 15, 2016
+
+Q1.  What is the difference between EBS and S3?
+
+S3 is web-based.  Stores data as objects in a flat environment (no heirarchy).  Access from anywhere through HTTP interface. Commonly used with applications that leverage the internet for content delivery. 11-9s of data durability.  Good for storing data that does not require a lot of read/write operations. 
+
+EC2 provides virtual machines (known as AMIs) running in the AWS cloud.  These AMIs are provisioned (to the host providing the AMI within AWS) as an explicit EBS resource.  This is block level storage. Resembles a virtual disk in a virtualised environment. Can only be used through AWS EC2 service. Can only be scaled by moving to a new, bigger, configured volume. Required storage size will depend on IOPS of your process. Cheaper per IO request than S3, higher storage cost. 
+
+Q2.  When would you consider cloud infrastructure for your data science tasks?
+
+Cloud infrastructure can be more cost-effective as you pay only for what you use (vs having to maintain your own servers).  It's highly scalable and reliable.  Good for use with teams: access from anywhere, flexible access control protocols.  Data is geographically distributed which is good for disaster recovery.  Disadvantages include availability (particularly when using spot instances), security (system vulnerability, open ports). 
+
+Q3.  What is the difference between spot instances and reserved instances?
+
+When you reserve an instance, that computing capacity is yours and is generally uninterrupted.  Pricing is fixed typically per hour; cost efficiency improves by maximizing the utilization of assigned capacity. 
+
+Spot instances are flexibly assigned; when the spot price for capacity meets your threshold the instance is launched.  Significantly lower cost compared to reserve, best for flexible workloads, to enhance performance via (intermittently) adding capacity.  Interruptible.  
+
+Q4.  List the names of four software packages installed in the UCB AMI.
+
+Hadoop, iPython, pgxl-deployment-tools, streamparse
