@@ -1,0 +1,19 @@
+
+1. List the HDFS contents of /user
+
+drwxr-xr-x   - mapred  supergroup          0 2017-01-22 21:39 /user/history
+drwxrwxrwx   - hive    supergroup          0 2017-01-22 21:39 /user/hive
+drwxrwxrwx   - hue     supergroup          0 2017-01-22 21:40 /user/hue
+drwxrwxrwx   - jenkins supergroup          0 2017-01-22 21:39 /user/jenkins
+drwxrwxrwx   - oozie   supergroup          0 2017-01-22 21:40 /user/oozie
+drwxrwxrwx   - root    supergroup          0 2017-01-22 21:39 /user/root
+drwxr-xr-x   - hdfs    supergroup          0 2017-01-22 21:41 /user/spark
+drwxr-xr-x   - w205    supergroup          0 2017-01-22 21:41 /user/w205
+
+2. Inspect the output of the admin report
+
+A) How many data nodes are there?  1
+B) How much non-dfs storage is used? 5.05 GB
+C) How much DFS storage is used?  137.38 MB
+
+
