@@ -1,0 +1,62 @@
+W205 Section 3 Lab 5
+January 27, 2017
+Carlee Price
+
+Question 1: What is the output of \dt?
+
+The output appears to be a list of tables within the database. 
+ 
+List of relations
+ Schema |       Name       | Type  |  Owner
+--------+------------------+-------+----------
+ public | actor            | table | postgres
+ public | address          | table | postgres
+ public | category         | table | postgres
+ public | city             | table | postgres
+ public | country          | table | postgres
+ public | customer         | table | postgres
+ public | film             | table | postgres
+ public | film_actor       | table | postgres
+ public | film_category    | table | postgres
+ public | inventory        | table | postgres
+ public | language         | table | postgres
+ public | payment          | table | postgres
+ public | payment_p2007_01 | table | postgres
+ public | payment_p2007_02 | table | postgres
+ public | payment_p2007_03 | table | postgres
+ public | payment_p2007_04 | table | postgres
+ public | payment_p2007_05 | table | postgres
+ public | payment_p2007_06 | table | postgres
+ public | rental           | table | postgres
+ public | staff            | table | postgres
+ public | store            | table | postgres
+
+Question 2: What is the schema for the customer table?
+
+A schema for a table is simply the layout; shown below, it describes what information is inluded in the table and what characteristics each field will allow (length of string, number type, etc.)
+
+                                          Table "public.customer"
+   Column    |            Type             |                           Modifiers         
+-------------+-----------------------------+----------------------------------------------------------------
+ customer_id | integer                     | not null default nextval('customer_customer_id_seq'::regclass)
+ store_id    | smallint                    | not null
+ first_name  | character varying(45)       | not null
+ last_name   | character varying(45)       | not null
+ email       | character varying(50)       |
+ address_id  | smallint                    | not null
+ activebool  | boolean                     | not null default true
+ create_date | date                        | not null default ('now'::text)::date
+ last_update | timestamp without time zone | default now()
+ active      | integer
+
+Question 3: What similarities do you see in the explain plans for the 3 queries?
+
+Query 1 is very simple as we're not filtering out any data.  Query 2 and Query 3 are very very similar in that they use a range of payment amounts as the filter; the SEQ scan proceeds as such.  I'm not sure what else we're supposed to include here.
+
+Question 4: What is the difference between the plans for the Partitioned table and the union query?  Why do you think this difference exists?
+
+Union combines similar datasets into a resultset.  In this case, we're retuning the sum amounts for each customer_id from two different payment tables.  Presumably the tables from which we are selecting (payment_p2007_01 and payment_p2007_02) are small and the execution of the query faster, than the Partition approach.  Partition starts with the payment table, first summing amounts by ID, and selects out data meeting the WHERE criteria.  Depending on the specificity of the selection criteria, this query may end up discarding a significant number of rows, which would make it a less efficienty query than the Union approach, while returning similar information.  
+
+Question 5: What join algorithm is used for the inner join?
+
+The Inner Join begins with customer as the anchor table, and joins to payment table using customer_id.  In this case we've used explicit join notation. Where a match exists between the customer_id in customer table and in payments table, a result row is generated which lists first_name, last_name, email, amount, and payment_date.  
