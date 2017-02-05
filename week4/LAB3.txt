@@ -1,0 +1,24 @@
+W205 Section 3 Lab 3
+Carlee Price
+February 5, 2017
+
+1. List the execution time of the weblog aggregation query for 
+	a) Hive = 121.297s
+	b) SparkSQL = 29.389s
+	c) SparkSQL on Parquet = 8.897s
+
+2. a) How many jobs does Hive launch? TWO
+   b) Does SparkSQL launch jobs?  NO
+
+3. a) Write a query which joins weblogs_parquet to user_info and counts the top 5 locations. The was the closest I came to something that might work.  It sadly did not, and I ran out of time.
+
+	SELECT user_id, COUNT(user_id) AS log_count
+	FROM weblogs_parquet GROUP BY user_id
+	ORDER BY log_count DESC
+	LIMIT 5
+	INNER JOIN user_info
+	ON weblogs_parquet.user_id=user_info.user_id;
+
+List the locations.
+
+I don't have the locations but I have the top 5 user_ids from the previous query.  Would then search the user_info table for each of these IDs and pull the associated location.   
