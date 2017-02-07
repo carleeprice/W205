@@ -1,0 +1,31 @@
+W205 Section 3 Lab 3
+Carlee Price
+February 5, 2017
+
+1. List the execution time of the weblog aggregation query for 
+	a) Hive = 121.297s
+	b) SparkSQL = 29.389s
+	c) SparkSQL on Parquet = 8.897s
+
+2. a) How many jobs does Hive launch? TWO
+   b) Does SparkSQL launch jobs?  NO
+
+3. a) Write a query which joins weblogs_parquet to user_info and counts the top 5 locations. 
+
+SELECT user_info.location, 
+COUNT(user_info.location) AS location_count
+FROM user_info 
+JOIN weblogs_parquet
+ON user_info.user_id = weblogs_parquet.user_id 
+GROUP BY user_info.location
+ORDER BY location_count DESC
+LIMIT 5;
+
+List the locations.
+
+La Fayette      49
+Leeds   	47
+Blountsville    46
+Hayden  	45
+Hamilton        45
+Time taken: 13.552 seconds, Fetched 5 row(s)
