@@ -1,5 +1,5 @@
 git clone https://github.com/carleeprice/W205.git
-cd W205/Exercise/loading_and_modelling
+cd W205/Exercise/loading
 ls
 unzip hospital.zip
 ls
