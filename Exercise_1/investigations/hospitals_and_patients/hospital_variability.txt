@@ -1,0 +1,30 @@
+For this question, we'll use the TEC dataset.    
+
+1) The measure and score attributes will be most helpful.
+
+2) Scores fall into several categories: time measures and percent compliance measures.  In some cases percent measures are better to be low, and in some cases better to be high. We can group these three categories using CASE.   
+
+3) We'd like to have a mix of these measures in our result set.  
+
+4) EDA reveals that the scores for each of these measures range from the "ideal" score (O in the case where percent-low is preferred, and in time-range cases, 100 in the case where percent-high is preferred) to some outer boundary.  The average will reveal to us which measures are more closely clustered to their ideal and which are further away.
+
+5) I used a bit of strong-arming here; with the goal in mind of returning a list that included the "most variable" measures some from each category, I determined where the "break points" would be for each distinct category: 
+	a) For time-based measures, an average > 95 minutes
+	b) For high-percent measures, an average of < 75%
+	c) For low-percent measures, an average < 5%
+
+6) These break points were introduced as constants in the query.  This makes the query less robust; if we attempted to run it on a different set (updated for example) of data, we might end up with a different result.  
+
+7) We order the result set by the number of rows that qualify as highly variable, in descending count, which gives us the most variable procedursIn this case, though, the query works, and the 10 most variable procedures (and the frequency with which they fall into "highly variable" territory, not super helpful without context) in this dataset are:
+
+ED_1b   3663
+OP_18b  3262
+ED_2b   1545
+IMM_3_OP_27_FAC_ADHPCT  860
+OP_29   772
+OP_23   622
+OP_30   512
+IMM_2   326
+PC_01   297
+VTE_6   169
+
