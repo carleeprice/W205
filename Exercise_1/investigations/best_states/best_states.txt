@@ -1,0 +1,27 @@
+The work I did to answer the best_hospitals question can inform this inquiry as well.  This time, I used "Timely and Effective Care - State" (renamed TECS) and "Timely and Effective Care - National" (renamed TECN). 
+
+1) So again we'll evaluate the scores attributed to different measures against a standard.  States measured against national metrics in this case.  The TECN dataset offers us an average score for each measure-state pair. 
+
+2) No subquery is necessary here.
+
+3) I used the same general approach as for the best_hospitals query, specifically to COUNT the number of measures GROUP(ed) BY state, WHERE the score was higher than the standard (national score in this case).  This query will give us the 10 states with the highest number of measures on which they scored above the national average.
+
+4) I also chose to pull in the oall_rating score from the "Hospital General Information" dataset.  Although this is a categorical scored variable rather than quantitative, measured, and continuous, it can serve here as a helpful check.
+
+5) In this case we did not need a tiebreaker, as the 10th state scored one "count" better than the 11th.
+
+These best states are:
+
+WI      14
+VA      14
+SD      13
+SC      12
+IN      12
+CO      12
+FL      11
+ID      11
+TN      11
+WY      11
+
+
+
