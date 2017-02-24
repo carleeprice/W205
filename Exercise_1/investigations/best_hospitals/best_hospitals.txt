@@ -1,0 +1,32 @@
+I've used the two datasets to answer this question: "Timely and Efficient Care - Hospital" (renamed TEC) and "Timely and Effective Care - State" (renamed TECS). 
+
+1) Defining Helpful Metrics. The question asks for hospitals that qualify on a "variety of measures".  The Data Guide for this dataset describes 51 different "Measure ID" fields.  Two additional fields ('OP-29' and 'OP-30') are described in a later edition of the Data Guide.  Each of these Measure ID (measure in my set) received a score, which will be the primary driver of this analysis.  Score was chosen because it is a metric, rather than an declarative categorical evaluation, such as appears in the "Hospital General Information" set, and is continuous which will give us better granularity.   
+
+2) EDA and Building a Subquery. Of tha 51 defined Measure IDs, 22 appear in TEC and TECS datasets. Evaluating the quality of the Score vaules returned, there are quite a few NULLs and suspicious 0s.  Why suspicious?  It seems improbable that the "Average Time spent in Emergency Department before being admitted as an inpatient" for all patients at a given facility (ED_1b) would be zero.  So I work on the assumption that these are data errors and eliminate them.  The mechanism for eliminating scores returning Zero and Null is in the subquery WHERE score > 0.
+
+3) Variety of Metrics Subquery.  Here I count the number of real (nonzero, nonNULL) scores available for each Provider in the set, and demand that a minimum threshold be reached in order for a facility to qualify for consideration in the outer query.  We still would like a robust number of rows to remain in our dataset.  Selecting for facilities with "8 or more" qualifying scores leaves 3352 providers in the set, and selecting for "11 or more" scores leaves 2819.  So in addition to WHERE score > 0, the subquery includes HAVING COUNT(DISTINCT measure) > 10.
+
+4) LEFT JOIN to repopulate the table.  Since our subquery included an aggregate and only returned basic identifying information (Provider ID and Hospital Name), we LEFT JOIN it back to itself to repopulate all fields for just those hospitals that passed the subquery.  
+
+5) JOIN to add state_standards "score" attribute.  I've chosen here to measure Hospital "score" metric against State, rather than National standards.  Both are available in the dataset.  This was a judgment call, made in part because we will look at State vs National Standards in a later question (thus framing our evaluation here) and because for practical purposes, a patient may be able to choose to travel in-state in order to pursue better care, but is less likely to travel nationally.  
+
+6) Qualifying scores as "best".  Score attibute varies widely in both scale (MAX score 1368 for measure ED-1b, which measures "Average time patients spent in the emergency department, before they were admitted to the hospital as an inpatient") and direction.  In some cases a lower score is interpreted as better (for example time waiting should be minimized) and in some cases a higher score is better (percentage of patients who receive appropriate treatment).  Here I created a WHERE statement which qualifies scores as "good" in both categories, by grouping "low is good" and "high is good" measures using an two different IN statements, then measuring each against the state standard.  
+
+7) Group, Count, Order.  Finally, we COUNT the number of "good" measures from our select group of "varied-offering" providers.  This results in a tie, so we add AVG(score) which includes two different types (time, percentage) of measures and therefore overweights the time-based measures which are of a different scale.  This is an admittedly crude means of tie-breaking but gets the job roughly done.  We output the Provider ID and Name for each Hospital, in DESC order by COUNT number and ASC order on AVG SCORE.  
+
+8) Ta-da!  The Best Hospitals in this dataset, and the number of metrics on which they perform well are:
+
+310052  OCEAN MEDICAL CENTER    16      86.1875
+330004  HEALTHALLIANCE HOSPITAL BROADWAY CAMPUS 16      84.625
+490107  RESTON HOSPITAL CENTER  16      71.0
+010036  ANDALUSIA REGIONAL HOSPITAL     16      64.0625
+330264  ST LUKE'S CORNWALL HOSPITAL     15      91.33333333333333
+050242  DOMINICAN HOSPITAL      15      87.46666666666667
+220011  CAMBRIDGE HEALTH ALLIANCE       15      83.4
+070003  DAY KIMBALL HOSPITAL    15      82.46666666666667
+050324  SCRIPPS MEMORIAL HOSPITAL LA JOLLA      15      81.13333333333334
+310047  SHORE MEDICAL CENTER    15      79.6
+
+
+9) A note: the question also makes mention of consistency, which I've interpreted not as "consistent over time" but "consistently across procedures" which is well addressed above.
+ 
