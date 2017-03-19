@@ -1,0 +1,49 @@
+Submission 1
+
+How many rows are missing a value in the "State" column? Explain how you came up with the number.
+
+5377
+
+Selecting Text Facet for the state attritbute creates a summary in the left panel.  Within this summary are some state abbreviations, some that look unusual, and a line (blank) that reads 5377.
+
+SUBMISSION 2:
+
+How many rows with missing ZIP codes do you have?
+
+4362
+
+SUBMISSION 3:
+
+*If you consider all ZIP codes less than 99999 to be valid, how many valid and invalid ZIP codes do you have, respectively?
+
+Valid: 345192
+Invalid: 34944
+Blank: 4362
+
+SUBMISSION 4:
+
+Change the radius to 3.0. What happens? Do you want to merge any of the resulting matches?
+
+Changing the radius to 3 adds the pairs "Pakistan-Tajikistan" and "Indonesia-Micronesia" to the list.  It would not be a good idea to merge these.  
+SUBMISSION 5:
+
+Change the block size to 2. Give two examples of new clusters that may be worth merging.
+
+Changing the block size to 2 brings in additional misspellings of Alaska for example.  In addition to "Alaska"/"alaska" we now have "Alaksa", "Alaa", "Alaka", "Alska".  These might well be worth merging, although the "Alaa" entry might warrant a quick look.  
+
+Another cluster unearthed here that is worth merging includes "Canada", "Candaa" & "Cnaada". 
+
+SUBMISSION 6:
+
+Explain in words what happens when you cluster the "place" column, and why you think that happened. What additional functionality could OpenRefine provide to possibly deal with the situation?
+
+Hint: you may want to cancel the run.
+
+Attempting to cluster the "place" column results in the program hanging up.  This likely happened as the program attempted to compare each of these long strings to each other, taking incremental text chunks of the indicated "block size" and attempting to match them.  The number of iterations this would require is massive, and the calculation therefore intensive.  If the program could separately identify the direction/distance component ("99km N of") from the location ("Chirikof Island, Alaska") then clustering might be easier, more effective.
+
+SUBMISSION 7:
+
+Submit a representation of the resulting matrix from the Levenshtein edit distance calculation. The resulting value should be correct.
+
+See attached .png file
+
