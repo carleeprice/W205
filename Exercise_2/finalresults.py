@@ -21,7 +21,7 @@ def counter(word):
 			wordcount = 0
 		print "word=", wordcount[0], "count =", wordcount[1]
 	else:
-		squery = cur.mogrify("SELECT * from tweetwordcount ORDER BY count")
+		squery = cur.mogrify("SELECT * from tweetwordcount ORDER BY word ASC")
 		cur.execute(squery)
 		wordsrow = cur.fetchall()
 		for words in wordsrow:
