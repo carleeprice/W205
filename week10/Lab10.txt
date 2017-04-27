@@ -1,0 +1,28 @@
+SUBMISSION 1: Print only words with a length > 5 characters. Submit the pyspark code
+
+uclines = lines.map(lambda word: word.upper() if len(word) > 5)
+uclines.pprint()
+
+SUBMISSION 2: Change the code so that you save the venue components to a text file. Submit you code.
+
+>>>dict = []
+
+>>>ssc = StreamingContext(sc, 10)
+
+>>>lines = ssc.textFileStream("file:///tmp/datastreams")
+
+>>>slines = lines.flatMap(lambda x: [ j['venue'] for j in
+json.loads('['+x+']') if 'venue' in j] )
+
+>>>dict.append(slines)
+
+
+SUBMISSION 3: In a previous module in this class you learnt about streams, bustiness and kafka. Describe how you would solve a situation where (1) you have a very busty stream where you spark streaming process may not always be able to keep up with the data it receives, meaning it the time it takes to process takes longer than the batch interval. (2) Like other programs stream processing programs need to be updated. Describe the implications of updating this simple processing program. What side effects can it have? How could you potentially handle them?
+
+The problem of backpressure (buildup of incoming streamed data while the previous batch is being processed, such that the backlog grows ever larger) can be solved through paralellization (which reduces the processing time; incoming data is split into multiple input streams and unioned together).  Batch size can also be adjusted to address this problem, or the block interval (blocks per batch determine the processing demands). 
+
+
+SUBMISSION 4a: Provide a screenshot of the running Spark Streaming application that shows that the CountByWindow indeed provides an sum of the counts from the 3 latest batches. See example screenshot below.
+
+SUBMISSION 4b: Also explain what the difference is between having 10 sec batches with a 30 sec sliding window and a 30 second batch length.  30 second batch length (no sliding window) will take in 30s of data and then forward it for processing.  IN the case of the 10s batch, 30s batch length, the duration of the window represents 3 time units of data, such that data will apper in multiple batches as the window slides.  In the latter case here there is no repeat it is a simple batch.  The former is more resource-intensive (because of the replication) but also more reliable and with shorter latency.  
+
